@@ -2,7 +2,7 @@
 
 * {
   padding: 0;
-  margin: 10px;
+  margin: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
@@ -10,9 +10,15 @@
 body {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #f8f8f8;
+}
+
+h1 {
+  margin-bottom: 0.5em;
+  font-size: 2.5em;
 }
 
 svg {
@@ -21,9 +27,8 @@ svg {
 
 .bar {
   fill: rgb(44, 97, 139);
-  transition: all 0.3s ease;
 }
 
 .bar:hover {
-  fill: red;
+  fill: rgb(255, 255, 255);
 }
