@@ -1,43 +1,36 @@
-const height = 400;
-const width = 600;
-const padding = 50;
+const url =
+  "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+fetch(url)
+  .then((response) => response.json())
+  .then((response) => {
+    // console.log(response.data);
+    const { data } = response;
+    startVisualization(data);
+  });
 
-const dataset = [
-  ["1947-01-01", 243.1],
-  ["1947-04-01", 246.3],
-  ["1947-07-01", 250.1],
-  ["1947-10-01", 260.3],
-  ["1948-01-01", 266.2],
-  ["1948-04-01", 272.9],
-  ["1948-07-01", 279.5],
-  ["1948-10-01", 280.7],
-  ["1949-01-01", 275.4],
-  ["1949-04-01", 271.7],
-  ["1949-07-01", 273.3],
-  ["1949-10-01", 271],
-  ["1950-01-01", 281.2],
-  ["1950-04-01", 290.7],
-  ["1950-07-01", 308.5],
-  ["1950-10-01", 320.3],
-  ["1951-01-01", 336.4],
-  ["1951-04-01", 344.5],
-  ["1951-07-01", 351.8],
-  ["1951-10-01", 356.6],
-];
+const startVisualization = (dataset) => {
+  const height = 450;
+  const width = 800;
+  const barWidth = width / dataset.length;
+  const svg = d3
+    .select("body")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "svg");
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(dataset, (d) => d[1])])
+    .range([0, height]);
 
-const svg = d3
-  .select("body")
-  .append("svg")
-  .attr("width", width)
-  .attr("height", height);
-
-svg
-  .selectAll("rect")
-  .data(dataset)
-  .enter()
-  .append("rect")
-  .attr("x", (d, i) => i * 25)
-  .attr("y", (d) => height - d[1])
-  .attr("width", 20)
-  .attr("height", (d) => d[1])
-  .attr("class", "bar");
+  svg
+    .selectAll("rect")
+    .data(dataset)
+    .enter()
+    .append("rect")
+    .attr("x", (d, i) => i * barWidth)
+    .attr("y", (d) => height - yScale(d[1]))
+    .attr("width", barWidth)
+    .attr("height", (d) => yScale(d[1]))
+    .attr("class", "bar");
+};
