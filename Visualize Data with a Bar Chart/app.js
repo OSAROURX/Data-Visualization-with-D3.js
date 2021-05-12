@@ -10,7 +10,7 @@ fetch(url)
 
 const startVisualization = (dataset) => {
   const height = 450;
-  const width = 800;
+  const width = 960;
   const barWidth = width / dataset.length;
   const svg = d3
     .select("body")
