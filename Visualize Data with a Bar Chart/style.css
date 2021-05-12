@@ -22,11 +22,13 @@ h1 {
 }
 
 svg {
+  padding: auto;
   border: 2px solid black;
 }
 
 .bar {
   fill: rgb(44, 97, 139);
+  transition: all 0.08s linear;
 }
 
 .bar:hover {
