@@ -3,17 +3,16 @@ const url =
 fetch(url)
   .then((response) => response.json())
   .then((response) => {
-    console.log(response.data[0][0].split("-")[0]);
-    const { data } = response;
-    const dataset = data.map((d) => [d[0].split("-")[0], d[1]]);
-    startVisualization(dataset);
+    const data = response.data.map((d) => [d[0].split("-")[0], d[1]]);
+    console.log(data);
+    startVisualization(data);
   });
 
 const startVisualization = (dataset) => {
   const height = 500;
   const width = 960;
   const padding = 50;
-  const barWidth = width / dataset.length;
+  const barWidth = (width - 2 * padding) / dataset.length;
   const svg = d3
     .select("body")
     .append("svg")
@@ -33,17 +32,17 @@ const startVisualization = (dataset) => {
 
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
   const yAxis = d3.axisLeft(yScale);
-  svg
 
+  svg
     .selectAll("rect")
     .data(dataset)
     .enter()
     .append("rect")
-    .attr("x", (d, i) => i * barWidth)
-    .attr("y", (d) => height - yScale(d[1]))
+    .attr("class", "bar")
+    .attr("x", (d, i) => i * barWidth + padding)
+    .attr("y", (d) => yScale(d[1]) - padding)
     .attr("width", barWidth)
-    .attr("height", (d) => yScale(d[1]))
-    .attr("class", "bar");
+    .attr("height", (d) => height - yScale(d[1]));
 
   svg
     .append("g")
@@ -54,6 +53,6 @@ const startVisualization = (dataset) => {
   svg
     .append("g")
     .attr("id", "y-axis")
-    .attr("transform", `translate(${height - padding}, 0})`)
+    .attr("transform", `translate(${padding}, 0)`)
     .call(yAxis);
 };
