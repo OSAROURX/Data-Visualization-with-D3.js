@@ -4,7 +4,7 @@ fetch(url)
   .then((response) => response.json())
   .then((response) => {
     const data = response.data.map((d) => [d[0].split("-")[0], d[1]]);
-    console.log(data);
+    // console.log(data);
     startVisualization(data);
   });
 
@@ -28,7 +28,7 @@ const startVisualization = (dataset) => {
   const yScale = d3
     .scaleLinear()
     .domain([0, d3.max(dataset, (d) => d[1])])
-    .range([height - padding, padding]);
+    .range([height - padding, 1.5 * padding]);
 
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
   const yAxis = d3.axisLeft(yScale);
