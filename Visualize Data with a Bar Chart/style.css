@@ -35,8 +35,7 @@ svg {
 }
 
 .bar {
-  fill: rgb(44, 97, 139);
-  transition: all 0.08s linear;
+  fill: rgb(59, 126, 180);
 }
 
 .bar:hover {
