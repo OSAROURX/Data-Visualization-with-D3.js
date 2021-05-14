@@ -72,4 +72,19 @@ const startVisualization = (dataset) => {
     .attr("font-weight", "100")
     .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle");
+
+  svg
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -295)
+    .attr("y", 70)
+    .attr("font-weight", "300")
+    .text("Gross Domestic Product");
+
+  svg
+    .append("text")
+    .attr("x", width - 165)
+    .attr("y", height - 10)
+    .attr("font-weight", "300")
+    .text("By LeviaThanSr");
 };
