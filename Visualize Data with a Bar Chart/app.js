@@ -9,7 +9,7 @@ fetch(url)
   });
 
 const startVisualization = (dataset) => {
-  const height = 500;
+  const height = 560;
   const width = 960;
   const padding = 50;
   const barWidth = (width - 2 * padding) / dataset.length;
@@ -46,7 +46,9 @@ const startVisualization = (dataset) => {
     .attr("width", barWidth)
     .attr("height", (d) => height - yScale(d[1]))
     .append("title")
-    .text((d) => d[1]);
+    .text((d) => d[0] + " " + d[1])
+    .attr("id", "tooltip")
+    .attr("data-date", (d) => d[0]);
 
   svg
     .append("g")
@@ -60,5 +62,14 @@ const startVisualization = (dataset) => {
     .attr("transform", `translate(${padding}, 0)`)
     .call(yAxis);
 
-  svg.selectAll("text").append("text").attr("id", "title").text("USD GDP");
+  svg
+    .append("text")
+    .attr("id", "title")
+    .text("United States GDP")
+    .attr("x", "50%")
+    .attr("y", "8%")
+    .attr("font-size", "2.5em")
+    .attr("font-weight", "100")
+    .attr("dominant-baseline", "middle")
+    .attr("text-anchor", "middle");
 };
