@@ -1,7 +1,7 @@
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
-const height = 560;
-const width = 960;
+const height = 550;
+const width = 950;
 const padding = 60;
 
 let xScale;
@@ -11,17 +11,17 @@ let xAxisScale;
 let yAxisScale;
 
 const svg = d3
-  .select("body")
+  .select(".container")
   .append("svg")
   .attr("width", width)
   .attr("height", height)
   .attr("class", "svg");
 
 const tooltip = d3
-  .select("body")
+  .select(".container")
   .append("div")
   .attr("id", "tooltip")
-  .style("display", "none");
+  .style("visibility", "hidden");
 
 const setScales = () => {
   xScale = d3
@@ -97,24 +97,54 @@ const setText = () => {
 };
 
 const startVisualization = () => {
+  const barWidth = (width - 2 * padding) / dataset.length;
+
+  const gdp = dataset.map((d) =>
+    d[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  );
+
+  const years = dataset.map((d) => {
+    let quarter;
+    let months = d[0].substring(5, 7);
+    switch (months) {
+      case "01":
+        quarter = "Q1";
+        break;
+      case "04":
+        quarter = "Q2";
+        break;
+      case "07":
+        quarter = "Q3";
+        break;
+      case "10":
+        quarter = "Q4";
+        break;
+    }
+    return `${d[0].substring(0, 4)} ${quarter}`;
+  });
+
   svg
     .selectAll("rect")
     .data(dataset)
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .attr("width", (width - 2 * padding) / dataset.length)
+    .attr("width", barWidth)
     .attr("height", (d) => yScale(d[1]))
     .attr("x", (d, i) => xScale(i))
     .attr("y", (d) => height - padding - yScale(d[1]))
     .attr("data-date", (d) => d[0])
     .attr("data-gdp", (d) => d[1])
-    .on("mouseover", (d) => {
-      tooltip.transition().style("display", "block");
-      tooltip.html(`${d[0]}</br>${d[1]}`);
+    .on("mouseover", (d, i) => {
+      tooltip.transition().style("visibility", "visible");
+      tooltip
+        .html(`${years[i]}</br>$${gdp[i]} Billions`)
+        .attr("data-date", d[0])
+        .style("left", i * barWidth + padding * 3.5 + "px")
+        .style("top", height - padding * 2.5 + "px");
     })
     .on("mouseout", () => {
-      tooltip.transition().style("display", "block");
+      tooltip.transition().style("visibility", "hidden");
     });
 };
 
