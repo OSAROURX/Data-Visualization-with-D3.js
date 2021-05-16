@@ -10,6 +10,12 @@ let dataset;
 let xAxisScale;
 let yAxisScale;
 
+const container = d3
+  .select("body")
+  .append("div")
+  .attr("class", "container")
+  .style("position", "relative");
+
 const svg = d3
   .select(".container")
   .append("svg")
@@ -54,15 +60,19 @@ const setAxis = () => {
 
   svg
     .append("g")
+    .call(xAxis)
     .attr("id", "x-axis")
-    .attr("transform", `translate(0, ${height - padding})`)
-    .call(xAxis);
+    .style("font-size", "0.75em")
+    .style("shape-rendering", "crispEdges")
+    .attr("transform", `translate(0, ${height - padding})`);
 
   svg
     .append("g")
+    .call(yAxis)
     .attr("id", "y-axis")
-    .attr("transform", `translate(${padding}, 0)`)
-    .call(yAxis);
+    .style("font-size", "0.75em")
+    .style("shape-rendering", "crispEdges")
+    .attr("transform", `translate(${padding}, 0)`);
 };
 
 const setText = () => {
