@@ -23,29 +23,19 @@ body {
   );
 }
 
-.container {
-  position: relative;
+.bar {
+  fill: #3b7eb4;
 }
 
-svg {
+.bar:hover {
+  fill: #f8f8f8;
+}
+
+.svg {
   background-color: #f8f8f8;
   border-radius: 3px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-}
-
-.bar {
-  fill: rgb(59, 126, 180);
-}
-
-.bar:hover {
-  fill: rgb(255, 255, 255);
-}
-
-#y-axis,
-#x-axis {
-  shape-rendering: crispEdges;
-  font-size: 0.75em;
 }
 
 #tooltip {
@@ -53,8 +43,6 @@ svg {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #f8f8f8;
-  border-radius: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,12 +50,14 @@ svg {
   width: 242px;
   height: 75px;
   padding: 10px;
-  color: #333;
   font-size: 1.25em;
   font-weight: 400;
   font-family: "Roboto Mono", monospace;
-  opacity: 0.9;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  border: 1px solid rgb(197, 197, 197);
+  color: #333;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  border: 1px solid rgb(197, 197, 197);
+  opacity: 0.9;
 }
