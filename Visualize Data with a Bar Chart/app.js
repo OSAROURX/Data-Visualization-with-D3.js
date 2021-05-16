@@ -17,6 +17,12 @@ const svg = d3
   .attr("height", height)
   .attr("class", "svg");
 
+const tooltip = d3
+  .select("body")
+  .append("div")
+  .attr("id", "tooltip")
+  .style("display", "none");
+
 const setScales = () => {
   xScale = d3
     .scaleLinear()
@@ -102,16 +108,22 @@ const startVisualization = () => {
     .attr("x", (d, i) => xScale(i))
     .attr("y", (d) => height - padding - yScale(d[1]))
     .attr("data-date", (d) => d[0])
-    .attr("data-gdp", (d) => d[1]);
+    .attr("data-gdp", (d) => d[1])
+    .on("mouseover", (d) => {
+      tooltip.transition().style("display", "block");
+      tooltip.html(`${d[0]}</br>${d[1]}`);
+    })
+    .on("mouseout", () => {
+      tooltip.transition().style("display", "block");
+    });
 };
 
 fetch(url)
   .then((response) => response.json())
   .then((response) => {
     dataset = response.data;
-    setText();
     setScales();
-    startVisualization();
     setAxis();
-    // console.log(dataset);
+    setText();
+    startVisualization();
   });
