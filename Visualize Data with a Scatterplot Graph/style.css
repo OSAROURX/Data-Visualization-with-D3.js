@@ -38,17 +38,15 @@ body {
 }
 
 .legend {
-  background-color: rgb(172, 114, 44);
-  width: 300px;
-  height: 80px;
+  width: 225px;
+  height: 50px;
   position: absolute;
-  top: 40%;
-  left: 50%;
+  top: 45%;
+  left: 82%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transform: translate(-50%, -50%);
-  padding: 10px 15px;
 }
 
 .legend_box {
@@ -57,14 +55,18 @@ body {
   align-items: center;
 }
 
+.legend_box p {
+  font-size: 0.85em;
+}
+
 .legend .legend_box .orange_box {
-  width: 20px;
-  height: 20px;
-  background-color: aquamarine;
+  width: 15px;
+  height: 15px;
+  background-color: #ed8f37;
 }
 
 .legend .legend_box .blue_box {
-  width: 20px;
-  height: 20px;
-  background-color: rgb(255, 15, 235);
+  width: 15px;
+  height: 15px;
+  background-color: #3779ed;
 }
