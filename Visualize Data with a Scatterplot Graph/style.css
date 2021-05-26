@@ -39,10 +39,32 @@ body {
 
 .legend {
   background-color: rgb(172, 114, 44);
-  width: 200px;
-  height: 100px;
+  width: 300px;
+  height: 80px;
   position: absolute;
   top: 40%;
-  left: 88.5%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   transform: translate(-50%, -50%);
+  padding: 10px 15px;
+}
+
+.legend_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.legend .legend_box .orange_box {
+  width: 20px;
+  height: 20px;
+  background-color: aquamarine;
+}
+
+.legend .legend_box .blue_box {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(255, 15, 235);
 }
