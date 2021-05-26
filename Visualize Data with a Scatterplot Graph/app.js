@@ -7,8 +7,6 @@ const padding = 60;
 let xScale;
 let yScale;
 let dataset;
-let xAxisScale;
-let yAxisScale;
 
 const container = d3
   .select("body")
@@ -23,37 +21,34 @@ const svg = d3
   .attr("height", height)
   .attr("class", "svg");
 
-const setScales = () => {
+const setScale = () => {
   xScale = d3
     .scaleLinear()
-    .domain([0, dataset.length - 1])
+    .domain([
+      d3.min(dataset, (d) => d.Year) - 1,
+      d3.max(dataset, (d) => d.Year) + 1,
+    ])
     .range([padding, width - padding]);
 
   yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(dataset, (d) => d.Seconds)])
-    .range([0, height - 2 * padding]);
+    .scaleTime()
+    .domain([
+      d3.min(dataset, (d) => new Date(d.Seconds * 1000)),
+      d3.max(dataset, (d) => new Date(d.Seconds * 1000)),
+    ])
+    .range([padding, height - padding]);
 };
 
-const setAxis = () => {
-  xAxisScale = d3
-    .scaleLinear()
-    .domain([d3.min(dataset, (d) => d.Year), d3.max(dataset, (d) => d.Year)])
-    .range([padding, width - padding]);
-
-  yAxisScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(dataset, (d) => d.Seconds)])
-    .range([height - padding, padding]);
-
-  const xAxis = d3.axisBottom(xAxisScale);
-  const yAxis = d3.axisLeft(yAxisScale);
+const setAxes = () => {
+  const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
+  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
 
   svg
     .append("g")
     .call(xAxis)
     .attr("id", "x-axis")
     .style("font-size", "0.75em")
+    .style("font-family", "Roboto Mono")
     .style("shape-rendering", "crispEdges")
     .attr("transform", `translate(0, ${height - padding})`);
 
@@ -62,6 +57,7 @@ const setAxis = () => {
     .call(yAxis)
     .attr("id", "y-axis")
     .style("font-size", "0.75em")
+    .style("font-family", "Roboto Mono")
     .style("shape-rendering", "crispEdges")
     .attr("transform", `translate(${padding}, 0)`);
 };
@@ -72,9 +68,9 @@ const setText = () => {
     .attr("id", "title")
     .text("Doping in Professional Bicycle Racing")
     .attr("x", "50%")
-    .attr("y", "8%")
-    .attr("font-size", "2em")
-    .attr("font-weight", "300")
+    .attr("y", "6%")
+    .attr("font-size", "1.7em")
+    .attr("font-weight", "400")
     .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle");
   svg
@@ -82,11 +78,42 @@ const setText = () => {
     .attr("id", "title")
     .text("35 Fastest times up Alpe d'Huez")
     .attr("x", "50%")
-    .attr("y", "14%")
-    .attr("font-size", "1.3em")
-    .attr("font-weight", "200")
+    .attr("y", "12%")
+    .attr("font-size", "1.15em")
+    .attr("font-weight", "300")
     .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle");
+
+  svg
+    .append("text")
+    .text("Time in Minutes")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -210)
+    .attr("y", 80)
+    .attr("font-weight", "300")
+    .attr("letter-spacing", "2");
+
+  svg
+    .append("text")
+    .text("By LeviaThanSr")
+    .attr("x", width - 200)
+    .attr("y", height - 15)
+    .attr("font-weight", "300")
+    .attr("letter-spacing", "2");
+};
+
+const startVisualization = () => {
+  svg
+    .selectAll("circle")
+    .data(dataset)
+    .enter()
+    .append("circle")
+    .attr("class", "dot")
+    .attr("data-xvalue", (d) => d.Year)
+    .attr("data-yvalue", (d) => new Date(d.Seconds * 1000))
+    .attr("r", 6)
+    .attr("cx", (d) => xScale(d.Year))
+    .attr("cy", (d) => yScale(new Date(d.Seconds * 1000)));
 };
 
 fetch(url)
@@ -94,6 +121,8 @@ fetch(url)
   .then((response) => {
     dataset = response;
     console.log(dataset);
+    setScale();
+    setAxes();
     setText();
-    setAxis();
+    startVisualization();
   });
