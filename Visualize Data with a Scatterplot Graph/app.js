@@ -112,9 +112,9 @@ const setLegend = () => {
   const legendBox2 = legend.append("div").attr("class", "legend_box");
 
   legendBox1.append("p").text("No doping allegations");
-  legendBox2.append("p").text("Riders with doping allegations");
-
   legendBox1.append("div").attr("class", "orange_box");
+
+  legendBox2.append("p").text("Riders with doping allegations");
   legendBox2.append("div").attr("class", "blue_box");
 };
 
