@@ -102,6 +102,10 @@ const setText = () => {
     .attr("letter-spacing", "2");
 };
 
+const setLegend = () => {
+  const legend = container.append("div").attr("class", "legend");
+};
+
 const startVisualization = () => {
   svg
     .selectAll("circle")
@@ -113,7 +117,8 @@ const startVisualization = () => {
     .attr("data-yvalue", (d) => new Date(d.Seconds * 1000))
     .attr("r", 6)
     .attr("cx", (d) => xScale(d.Year))
-    .attr("cy", (d) => yScale(new Date(d.Seconds * 1000)));
+    .attr("cy", (d) => yScale(new Date(d.Seconds * 1000)))
+    .style("fill", (d) => (d.Doping ? "#3779ed" : "#ed8f37"));
 };
 
 fetch(url)
@@ -124,5 +129,6 @@ fetch(url)
     setScale();
     setAxes();
     setText();
+    setLegend();
     startVisualization();
   });
