@@ -21,6 +21,12 @@ const svg = d3
   .attr("height", height)
   .attr("class", "svg");
 
+const tooltip = d3
+  .select(".container")
+  .append("div")
+  .attr("id", "tooltip")
+  .style("visibility", "hidden");
+
 const setScale = () => {
   xScale = d3
     .scaleLinear()
@@ -28,7 +34,7 @@ const setScale = () => {
       d3.min(dataset, (d) => d.Year) - 1,
       d3.max(dataset, (d) => d.Year) + 1,
     ])
-    .range([padding, width - padding]);
+    .range([padding * 1.5, width - padding * 1.5]);
 
   yScale = d3
     .scaleTime()
@@ -36,7 +42,7 @@ const setScale = () => {
       d3.min(dataset, (d) => new Date(d.Seconds * 1000)),
       d3.max(dataset, (d) => new Date(d.Seconds * 1000)),
     ])
-    .range([padding, height - padding]);
+    .range([padding * 1.5, height - padding]);
 };
 
 const setAxes = () => {
@@ -59,7 +65,7 @@ const setAxes = () => {
     .style("font-size", "0.75em")
     .style("font-family", "Roboto Mono")
     .style("shape-rendering", "crispEdges")
-    .attr("transform", `translate(${padding}, 0)`);
+    .attr("transform", `translate(${padding * 1.5}, 0)`);
 };
 
 const setText = () => {
@@ -69,7 +75,7 @@ const setText = () => {
     .text("Doping in Professional Bicycle Racing")
     .attr("x", "50%")
     .attr("y", "6%")
-    .attr("font-size", "1.7em")
+    .attr("font-size", "1.8em")
     .attr("font-weight", "400")
     .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle");
@@ -79,7 +85,7 @@ const setText = () => {
     .text("35 Fastest times up Alpe d'Huez")
     .attr("x", "50%")
     .attr("y", "12%")
-    .attr("font-size", "1.15em")
+    .attr("font-size", "1.2em")
     .attr("font-weight", "300")
     .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle");
@@ -88,15 +94,15 @@ const setText = () => {
     .append("text")
     .text("Time in Minutes")
     .attr("transform", "rotate(-90)")
-    .attr("x", -210)
-    .attr("y", 80)
+    .attr("x", -256)
+    .attr("y", 30)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");
 
   svg
     .append("text")
     .text("By LeviaThanSr")
-    .attr("x", width - 200)
+    .attr("x", width - 230)
     .attr("y", height - 15)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");
@@ -130,7 +136,27 @@ const startVisualization = () => {
     .attr("r", 6)
     .attr("cx", (d) => xScale(d.Year))
     .attr("cy", (d) => yScale(new Date(d.Seconds * 1000)))
-    .style("fill", (d) => (d.Doping ? "#3779ed" : "#ed8f37"));
+    .style("fill", (d) => (d.Doping ? "#3779ed" : "#ed8f37"))
+    .on("mouseover", (d, i) => {
+      tooltip.transition().style("visibility", "visible");
+      tooltip
+        .attr("data-year", d.Year)
+        .html(
+          d.Name +
+            " : " +
+            d.Nationality +
+            "<br />" +
+            "Year : " +
+            d.Year +
+            "<br />" +
+            "Time : " +
+            d.Time +
+            (d.Doping ? "<br /><br />" + d.Doping : "")
+        );
+    })
+    .on("mouseout", () => {
+      tooltip.transition().style("visibility", "hidden");
+    });
 };
 
 fetch(url)
