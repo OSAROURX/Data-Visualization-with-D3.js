@@ -27,6 +27,35 @@ const tooltip = d3
   .attr("id", "tooltip")
   .style("visibility", "visible");
 
+const setScale = () => {
+  xScale = d3.scaleLinear().range([padding * 1.2, width - padding * 1.2]);
+
+  yScale = d3.scaleLinear().range([padding * 1.8, height - padding * 1.8]);
+};
+
+const setAxes = () => {
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3.axisLeft(yScale);
+
+  svg
+    .append("g")
+    .call(xAxis)
+    .attr("id", "x-axis")
+    .style("font-size", "0.75em")
+    .style("font-family", "Roboto Mono")
+    .style("shape-rendering", "crispEdges")
+    .attr("transform", `translate(0, ${height - padding * 1.8})`);
+
+  svg
+    .append("g")
+    .call(yAxis)
+    .attr("id", "y-axis")
+    .style("font-size", "0.75em")
+    .style("font-family", "Roboto Mono")
+    .style("shape-rendering", "crispEdges")
+    .attr("transform", `translate(${padding * 1.2}, 0)`);
+};
+
 const setText = () => {
   svg
     .append("text")
@@ -57,7 +86,7 @@ const setText = () => {
     .text("Months")
     .attr("transform", "rotate(-90)")
     .attr("x", -275)
-    .attr("y", padding * 0.5 + 12)
+    .attr("y", padding * 0.3 + 12)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2")
     .attr("text-anchor", "middle");
@@ -66,7 +95,7 @@ const setText = () => {
     .append("text")
     .text("Years")
     .attr("x", "50%")
-    .attr("y", height - padding * 0.5)
+    .attr("y", height - padding * 1.1)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2")
     .attr("text-anchor", "middle");
@@ -74,8 +103,8 @@ const setText = () => {
   svg
     .append("text")
     .text("By LeviaThanSr")
-    .attr("x", width - 230)
-    .attr("y", height - padding * 0.5)
+    .attr("x", width - 210)
+    .attr("y", height - padding * 1.1)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");
 };
@@ -85,5 +114,7 @@ fetch(url)
   .then((response) => {
     dataset = response;
     console.log(dataset);
+    setScale();
+    setAxes();
     setText();
   });
