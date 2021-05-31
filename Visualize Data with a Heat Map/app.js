@@ -29,9 +29,18 @@ const svg = d3
 //   .style("visibility", "visible");
 
 const setScale = () => {
-  xScale = d3.scaleLinear().range([padding * 1.2, width - padding * 1.2]);
+  xScale = d3
+    .scaleLinear()
+    .domain(
+      d3.min(datasetValues.map((i) => i.year)),
+      d3.max(datasetValues.map((i) => i.year))
+    )
+    .range([padding * 1.2, width - padding * 1.2]);
 
-  yScale = d3.scaleLinear().range([padding * 1.8, height - padding * 1.8]);
+  yScale = d3
+    .scaleLinear()
+    .domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    .range([padding * 1.8, height - padding * 1.8]);
 };
 
 const setAxes = () => {
@@ -116,7 +125,10 @@ const startVisualization = () => {
     .data(datasetValues)
     .enter()
     .append("rect")
-    .attr("class", "cell");
+    .attr("class", "cell")
+    .attr("data-month", (d) => d.month)
+    .attr("data-year", (d) => d.year)
+    .attr("data-temp", (d) => datasetArr.baseTemperature + d.variance);
 };
 
 fetch(url)
@@ -124,7 +136,8 @@ fetch(url)
   .then((response) => {
     datasetArr = response;
     datasetValues = datasetArr.monthlyVariance;
-    // console.log(dataset);
+    console.log(datasetArr);
+    console.log(datasetValues.map((i) => i.year));
     setScale();
     setAxes();
     setText();
