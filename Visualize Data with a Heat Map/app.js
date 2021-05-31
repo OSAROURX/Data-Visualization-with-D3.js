@@ -1,7 +1,7 @@
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
-const height = 550;
-const width = 950;
+const height = 600;
+const width = 1250;
 const padding = 60;
 
 let xScale;
@@ -31,21 +31,21 @@ const svg = d3
 const setScale = () => {
   xScale = d3
     .scaleLinear()
-    .domain(
-      d3.min(datasetValues.map((i) => i.year)),
-      d3.max(datasetValues.map((i) => i.year))
-    )
-    .range([padding * 1.2, width - padding * 1.2]);
+    .domain([
+      d3.min(datasetValues, (d) => d.year),
+      d3.max(datasetValues, (d) => d.year),
+    ])
+    .range([padding * 1.5, width - padding * 1.5]);
 
   yScale = d3
-    .scaleLinear()
-    .domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    .scaleTime()
+    .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
     .range([padding * 1.8, height - padding * 1.8]);
 };
 
 const setAxes = () => {
-  const xAxis = d3.axisBottom(xScale);
-  const yAxis = d3.axisLeft(yScale);
+  const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
+  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%B"));
 
   svg
     .append("g")
@@ -63,7 +63,7 @@ const setAxes = () => {
     .style("font-size", "0.75em")
     .style("font-family", "Roboto Mono")
     .style("shape-rendering", "crispEdges")
-    .attr("transform", `translate(${padding * 1.2}, 0)`);
+    .attr("transform", `translate(${padding * 1.5}, 0)`);
 };
 
 const setText = () => {
@@ -126,9 +126,32 @@ const startVisualization = () => {
     .enter()
     .append("rect")
     .attr("class", "cell")
-    .attr("data-month", (d) => d.month)
+    .attr("data-month", (d) => d.month - 1)
     .attr("data-year", (d) => d.year)
-    .attr("data-temp", (d) => datasetArr.baseTemperature + d.variance);
+    .attr("data-temp", (d) => datasetArr.baseTemperature + d.variance)
+    .attr("height", (height - padding * 2 * 1.8) / 12)
+    .attr(
+      "width",
+      (width - padding * 5) /
+        (d3.max(datasetValues, (d) => d.year) -
+          d3.min(datasetValues, (d) => d.year))
+    )
+    .attr("y", (d) => yScale(new Date(0, d.month - 1, 0, 0, 0, 0, 0)))
+    .attr("x", (d) => xScale(d.year))
+    .attr("fill", (d) => {
+      let variance = parseInt(d.variance);
+      let color;
+      if (variance <= -1) {
+        color = "steelBlue";
+      } else if (variance <= 0) {
+        color = "lightSteelBlue";
+      } else if (variance <= 1) {
+        color = "orange";
+      } else {
+        color = "crimson";
+      }
+      return color;
+    });
 };
 
 fetch(url)
@@ -137,7 +160,7 @@ fetch(url)
     datasetArr = response;
     datasetValues = datasetArr.monthlyVariance;
     console.log(datasetArr);
-    console.log(datasetValues.map((i) => i.year));
+    console.log(datasetValues);
     setScale();
     setAxes();
     setText();
