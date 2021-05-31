@@ -6,7 +6,8 @@ const padding = 60;
 
 let xScale;
 let yScale;
-let dataset;
+let datasetArr;
+let datasetValues;
 
 const container = d3
   .select("body")
@@ -21,11 +22,11 @@ const svg = d3
   .attr("height", height)
   .attr("class", "svg");
 
-const tooltip = d3
-  .select(".container")
-  .append("div")
-  .attr("id", "tooltip")
-  .style("visibility", "visible");
+// const tooltip = d3
+//   .select(".container")
+//   .append("div")
+//   .attr("id", "tooltip")
+//   .style("visibility", "visible");
 
 const setScale = () => {
   xScale = d3.scaleLinear().range([padding * 1.2, width - padding * 1.2]);
@@ -71,9 +72,9 @@ const setText = () => {
     .append("text")
     .attr("id", "description")
     .html(
-      `${dataset.monthlyVariance[0].year} - ${
-        dataset.monthlyVariance[dataset.monthlyVariance.length - 1].year
-      } : base temperature ${dataset.baseTemperature}&#8451;`
+      `${datasetValues[0].year} - ${
+        datasetValues[datasetValues.length - 1].year
+      } : base temperature ${datasetArr.baseTemperature}&#8451;`
     )
     .attr("x", "50%")
     .attr("y", "14%")
@@ -109,12 +110,26 @@ const setText = () => {
     .attr("letter-spacing", "2");
 };
 
+const startVisualization = () => {
+  svg
+    .selectAll("rect")
+    .data(datasetValues)
+    .enter()
+    .append("rect")
+    .attr("class", "cell");
+};
+
 fetch(url)
   .then((response) => response.json())
   .then((response) => {
-    dataset = response;
-    console.log(dataset);
+    datasetArr = response;
+    datasetValues = datasetArr.monthlyVariance;
+    // console.log(dataset);
     setScale();
     setAxes();
     setText();
+    startVisualization();
+  })
+  .catch((err) => {
+    console.error("Error:", err);
   });
