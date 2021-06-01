@@ -8,6 +8,20 @@ let xScale;
 let yScale;
 let datasetArr;
 let datasetValues;
+let months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 const container = d3
   .select("body")
@@ -22,11 +36,11 @@ const svg = d3
   .attr("height", height)
   .attr("class", "svg");
 
-// const tooltip = d3
-//   .select(".container")
-//   .append("div")
-//   .attr("id", "tooltip")
-//   .style("visibility", "visible");
+const tooltip = d3
+  .select(".container")
+  .append("div")
+  .attr("id", "tooltip")
+  .style("visibility", "hidden");
 
 const setScale = () => {
   xScale = d3
@@ -152,6 +166,26 @@ const startVisualization = () => {
         color = "crimson";
       }
       return color;
+    })
+    .on("mouseover", (d) => {
+      tooltip.transition().style("visibility", "visible");
+
+      tooltip
+        .attr("data-year", d.year)
+        .html(
+          `${d.year} ${months[d.month - 1]}:</br>${(
+            datasetArr.baseTemperature + d.variance
+          ).toFixed(3)}&#8451</br>${
+            d.variance < 0
+              ? `<p>${d.variance}&#8451</p>`
+              : `<p>+${d.variance}&#8451</p>`
+          }`
+        )
+        .style("left", `${xScale(d.year)}px`)
+        .style("top", `${d3.event.pageY - 80}px`);
+    })
+    .on("mouseout", (d) => {
+      tooltip.transition().style("visibility", "hidden");
     });
 };
 
