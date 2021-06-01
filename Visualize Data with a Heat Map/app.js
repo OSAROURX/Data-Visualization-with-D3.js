@@ -42,6 +42,12 @@ const tooltip = d3
   .attr("id", "tooltip")
   .style("visibility", "hidden");
 
+const legend = d3
+  .select(".container")
+  .append("div")
+  .attr("id", "legend")
+  .style("background-color", "black");
+
 const setScale = () => {
   xScale = d3
     .scaleLinear()
@@ -158,11 +164,11 @@ const startVisualization = () => {
       let color;
       if (variance <= -1) {
         color = "steelBlue";
-      } else if (variance <= 0) {
+      } else if (variance > -1 && variance <= 0) {
         color = "lightSteelBlue";
-      } else if (variance <= 1) {
+      } else if (variance > 0 && variance <= 1) {
         color = "orange";
-      } else {
+      } else if (variance > 1) {
         color = "crimson";
       }
       return color;
@@ -189,6 +195,10 @@ const startVisualization = () => {
     });
 };
 
+const setLegend = () => {
+  svg.select;
+};
+
 fetch(url)
   .then((response) => response.json())
   .then((response) => {
@@ -199,6 +209,7 @@ fetch(url)
     setScale();
     setAxes();
     setText();
+    setLegend();
     startVisualization();
   })
   .catch((err) => {
