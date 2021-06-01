@@ -1,6 +1,6 @@
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
-const height = 600;
+const height = 580;
 const width = 1250;
 const padding = 60;
 
@@ -32,15 +32,15 @@ const setScale = () => {
   xScale = d3
     .scaleLinear()
     .domain([
-      d3.min(datasetValues, (d) => d.year),
-      d3.max(datasetValues, (d) => d.year),
+      d3.min(datasetValues, (d) => d.year) - 1 / 3,
+      d3.max(datasetValues, (d) => d.year) + 1,
     ])
-    .range([padding * 1.5, width - padding * 1.5]);
+    .range([padding * 2, width - padding * 2]);
 
   yScale = d3
     .scaleTime()
     .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
-    .range([padding * 1.8, height - padding * 1.8]);
+    .range([padding * 2, height - padding * 2]);
 };
 
 const setAxes = () => {
@@ -54,7 +54,7 @@ const setAxes = () => {
     .style("font-size", "0.75em")
     .style("font-family", "Roboto Mono")
     .style("shape-rendering", "crispEdges")
-    .attr("transform", `translate(0, ${height - padding * 1.8})`);
+    .attr("transform", `translate(0, ${height - padding * 2})`);
 
   svg
     .append("g")
@@ -63,7 +63,7 @@ const setAxes = () => {
     .style("font-size", "0.75em")
     .style("font-family", "Roboto Mono")
     .style("shape-rendering", "crispEdges")
-    .attr("transform", `translate(${padding * 1.5}, 0)`);
+    .attr("transform", `translate(${padding * 2}, 0)`);
 };
 
 const setText = () => {
@@ -129,10 +129,11 @@ const startVisualization = () => {
     .attr("data-month", (d) => d.month - 1)
     .attr("data-year", (d) => d.year)
     .attr("data-temp", (d) => datasetArr.baseTemperature + d.variance)
-    .attr("height", (height - padding * 2 * 1.8) / 12)
+    .attr("height", (d) => (height - padding * 4) / 12)
     .attr(
       "width",
-      (width - padding * 5) /
+      (d) =>
+        (width - padding * 4) /
         (d3.max(datasetValues, (d) => d.year) -
           d3.min(datasetValues, (d) => d.year))
     )
