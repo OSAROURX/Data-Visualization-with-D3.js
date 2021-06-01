@@ -40,13 +40,14 @@ const tooltip = d3
   .select(".container")
   .append("div")
   .attr("id", "tooltip")
+  .attr("class", "tooltip")
   .style("visibility", "hidden");
 
 const legend = d3
   .select(".container")
-  .append("div")
+  .append("svg")
   .attr("id", "legend")
-  .style("background-color", "black");
+  .attr("class", "legend");
 
 const setScale = () => {
   xScale = d3
@@ -178,6 +179,7 @@ const startVisualization = () => {
 
       tooltip
         .attr("data-year", d.year)
+        .style("left", `${xScale(d.year)}px`)
         .html(
           `${d.year} ${months[d.month - 1]}:</br>${(
             datasetArr.baseTemperature + d.variance
@@ -186,9 +188,7 @@ const startVisualization = () => {
               ? `<p>${d.variance}&#8451</p>`
               : `<p>+${d.variance}&#8451</p>`
           }`
-        )
-        .style("left", `${xScale(d.year)}px`)
-        .style("top", `${d3.event.pageY - 80}px`);
+        );
     })
     .on("mouseout", (d) => {
       tooltip.transition().style("visibility", "hidden");
@@ -196,7 +196,55 @@ const startVisualization = () => {
 };
 
 const setLegend = () => {
-  svg.select;
+  const legendBox = legend
+    .selectAll("rect")
+    .data([0, 1, 2, 3])
+    .enter()
+    .append("g")
+    .attr("class", (d) => "rectBox" + d);
+
+  legendBox.append("rect").attr("class", (d) => "rect" + d);
+  legendBox.append("text").attr("class", (d) => "text" + d);
+
+  legendBox
+    .select(".rect0")
+    .attr("x", 10)
+    .attr("y", 0)
+    .attr("width", "40")
+    .attr("height", "40")
+    .attr("fill", "steelBlue");
+
+  legendBox.select(".text0").html("Less Than -1").attr("x", 60).attr("y", 26);
+
+  legendBox
+    .select(".rect1")
+    .attr("x", 200)
+    .attr("y", 0)
+    .attr("width", "40")
+    .attr("height", "40")
+    .attr("fill", "lightSteelBlue");
+
+  legendBox.select(".text1").html("From -1 to 0").attr("x", 250).attr("y", 26);
+
+  legendBox
+    .select(".rect2")
+    .attr("x", 10)
+    .attr("y", 50)
+    .attr("width", "40")
+    .attr("height", "40")
+    .attr("fill", "orange");
+
+  legendBox.select(".text2").html("From 0 to 1").attr("x", 60).attr("y", 76);
+
+  legendBox
+    .select(".rect3")
+    .attr("x", 200)
+    .attr("y", 50)
+    .attr("width", "40")
+    .attr("height", "40")
+    .attr("fill", "crimson");
+
+  legendBox.select(".text3").html("More Than 1").attr("x", 250).attr("y", 76);
 };
 
 fetch(url)
