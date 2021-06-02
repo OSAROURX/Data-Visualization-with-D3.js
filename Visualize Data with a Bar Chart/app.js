@@ -1,7 +1,7 @@
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
 const height = 550;
-const width = 950;
+const width = 1050;
 const padding = 60;
 
 let xScale;
@@ -150,8 +150,8 @@ const startVisualization = () => {
       tooltip
         .html(`${years[i]}</br>$${gdp[i]} Billions`)
         .attr("data-date", d[0])
-        .style("left", i * barWidth + padding * 3.5 + "px")
-        .style("top", height - padding * 2.5 + "px");
+        .style("left", i * barWidth + padding * 3.2 + "px")
+        .style("top", height - padding * 3 + "px");
     })
     .on("mouseout", () => {
       tooltip.transition().style("visibility", "hidden");
