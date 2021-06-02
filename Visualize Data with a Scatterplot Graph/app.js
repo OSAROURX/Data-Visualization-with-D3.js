@@ -1,7 +1,7 @@
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json";
 const height = 550;
-const width = 950;
+const width = 1050;
 const padding = 60;
 
 let xScale;
