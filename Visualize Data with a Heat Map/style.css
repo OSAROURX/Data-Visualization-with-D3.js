@@ -41,7 +41,7 @@ body {
 
 .tooltip {
   position: absolute;
-  top: 12%;
+  top: 8%;
   left: 83.1%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -67,14 +67,14 @@ body {
 
 .legend {
   position: absolute;
-  top: 91.5%;
-  left: 25%;
+  top: 50%;
+  left: 94.5%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
 }
 
 g {
-  font-size: 1.2em;
+  font-size: 0.9em;
   padding: auto;
 }
