@@ -21,6 +21,7 @@ body {
     rgba(239, 249, 249, 1) 0%,
     rgba(182, 199, 226, 1) 100.2%
   );
+  overflow: hidden;
 }
 
 .bar {
@@ -60,4 +61,5 @@ body {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   opacity: 0.9;
+  pointer-events: none;
 }
