@@ -1,7 +1,7 @@
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
-const height = 580;
-const width = 1250;
+const height = 550;
+const width = 1050;
 const padding = 60;
 
 let xScale;
@@ -61,7 +61,7 @@ const setScale = () => {
   yScale = d3
     .scaleTime()
     .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
-    .range([padding * 2, height - padding * 2]);
+    .range([padding * 1.5, height - padding * 1.5]);
 };
 
 const setAxes = () => {
@@ -75,7 +75,7 @@ const setAxes = () => {
     .style("font-size", "0.75em")
     .style("font-family", "Roboto Mono")
     .style("shape-rendering", "crispEdges")
-    .attr("transform", `translate(0, ${height - padding * 2})`);
+    .attr("transform", `translate(0, ${height - padding * 1.5})`);
 
   svg
     .append("g")
@@ -117,7 +117,7 @@ const setText = () => {
     .text("Months")
     .attr("transform", "rotate(-90)")
     .attr("x", -275)
-    .attr("y", padding * 0.3 + 12)
+    .attr("y", padding * 0.8)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2")
     .attr("text-anchor", "middle");
@@ -126,7 +126,7 @@ const setText = () => {
     .append("text")
     .text("Years")
     .attr("x", "50%")
-    .attr("y", height - padding * 1.1)
+    .attr("y", height - padding * 0.8)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2")
     .attr("text-anchor", "middle");
@@ -134,8 +134,8 @@ const setText = () => {
   svg
     .append("text")
     .text("By LeviaThanSr")
-    .attr("x", width - 210)
-    .attr("y", height - padding * 1.1)
+    .attr("x", width - 260)
+    .attr("y", height - padding * 0.8)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");
 };
@@ -150,7 +150,7 @@ const startVisualization = () => {
     .attr("data-month", (d) => d.month - 1)
     .attr("data-year", (d) => d.year)
     .attr("data-temp", (d) => datasetArr.baseTemperature + d.variance)
-    .attr("height", (d) => (height - padding * 4) / 12)
+    .attr("height", (d) => (height - padding * 3) / 12)
     .attr(
       "width",
       (d) =>
@@ -161,7 +161,7 @@ const startVisualization = () => {
     .attr("y", (d) => yScale(new Date(0, d.month - 1, 0, 0, 0, 0, 0)))
     .attr("x", (d) => xScale(d.year))
     .attr("fill", (d) => {
-      let variance = parseInt(d.variance);
+      let variance = d.variance;
       let color;
       if (variance <= -1) {
         color = "steelBlue";
@@ -208,43 +208,43 @@ const setLegend = () => {
 
   legendBox
     .select(".rect0")
-    .attr("x", 10)
+    .attr("x", 0)
     .attr("y", 0)
-    .attr("width", "40")
-    .attr("height", "40")
+    .attr("width", "15")
+    .attr("height", "15")
     .attr("fill", "steelBlue");
 
-  legendBox.select(".text0").html("Less Than -1").attr("x", 60).attr("y", 26);
+  legendBox.select(".text0").html("Less Than -1").attr("x", 20).attr("y", 13);
 
   legendBox
     .select(".rect1")
-    .attr("x", 200)
-    .attr("y", 0)
-    .attr("width", "40")
-    .attr("height", "40")
+    .attr("x", 0)
+    .attr("y", 30)
+    .attr("width", "15")
+    .attr("height", "15")
     .attr("fill", "lightSteelBlue");
 
-  legendBox.select(".text1").html("From -1 to 0").attr("x", 250).attr("y", 26);
+  legendBox.select(".text1").html("From -1 to 0").attr("x", 20).attr("y", 43);
 
   legendBox
     .select(".rect2")
-    .attr("x", 10)
-    .attr("y", 50)
-    .attr("width", "40")
-    .attr("height", "40")
+    .attr("x", 0)
+    .attr("y", 60)
+    .attr("width", "15")
+    .attr("height", "15")
     .attr("fill", "orange");
 
-  legendBox.select(".text2").html("From 0 to 1").attr("x", 60).attr("y", 76);
+  legendBox.select(".text2").html("From 0 to 1").attr("x", 20).attr("y", 73);
 
   legendBox
     .select(".rect3")
-    .attr("x", 200)
-    .attr("y", 50)
-    .attr("width", "40")
-    .attr("height", "40")
+    .attr("x", 0)
+    .attr("y", 90)
+    .attr("width", "15")
+    .attr("height", "15")
     .attr("fill", "crimson");
 
-  legendBox.select(".text3").html("More Than 1").attr("x", 250).attr("y", 76);
+  legendBox.select(".text3").html("More Than 1").attr("x", 20).attr("y", 103);
 };
 
 fetch(url)
