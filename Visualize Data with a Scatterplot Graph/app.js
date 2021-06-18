@@ -79,9 +79,10 @@ const setText = () => {
     .attr("font-weight", "400")
     .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle");
+
   svg
     .append("text")
-    .attr("id", "title")
+    .attr("id", "description")
     .text("35 Fastest times up Alpe d'Huez")
     .attr("x", "50%")
     .attr("y", "12%")
