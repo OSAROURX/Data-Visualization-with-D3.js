@@ -1,10 +1,14 @@
-const url =
+const educationURL =
   "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json";
+const countryURL =
+  "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json";
+
 const height = 550;
 const width = 1050;
 const padding = 60;
 
-let dataset;
+let educationDataset;
+let countryDataset;
 
 const container = d3
   .select("body")
@@ -45,13 +49,24 @@ const setText = () => {
     .attr("text-anchor", "middle");
 };
 
-fetch(url)
+fetch(countryURL)
   .then((response) => response.json())
-  .then((response) => {
-    dataset = response;
-    console.log(dataset);
+  .then((countryResponse) => {
+    countryDataset = countryResponse;
+    console.log(countryDataset);
     setText();
+    return fetch(educationURL)
+      .then((response) => response.json())
+      .then((educationResponse) => {
+        educationDataset = educationResponse;
+        console.log(educationDataset);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch " + educationURL);
+        console.error(err);
+      });
   })
   .catch((err) => {
-    console.error("Error:", err);
+    console.error("Failed to fetch " + countryURL);
+    console.error(err);
   });
