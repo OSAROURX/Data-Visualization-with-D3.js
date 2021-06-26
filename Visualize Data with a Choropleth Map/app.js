@@ -51,22 +51,24 @@ const setText = () => {
 
 fetch(countryURL)
   .then((response) => response.json())
-  .then((countryResponse) => {
-    countryDataset = countryResponse;
+  .then(async (countryResponse) => {
+    countryDataset = topojson.feature(
+      countryResponse,
+      countryResponse.objects.counties
+    );
     console.log(countryDataset);
     setText();
-    return fetch(educationURL)
-      .then((response) => response.json())
-      .then((educationResponse) => {
-        educationDataset = educationResponse;
-        console.log(educationDataset);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch " + educationURL);
-        console.error(err);
-      });
+    try {
+      const response = await fetch(educationURL);
+      const educationResponse = await response.json();
+      educationDataset = educationResponse;
+      console.log(educationDataset);
+    } catch (err) {
+      console.error(`Failed to fetch educationURL => ${educationURL}`);
+      console.error(err);
+    }
   })
   .catch((err) => {
-    console.error("Failed to fetch " + countryURL);
+    console.error(`Failed to fetch countryURL => ${countryURL}`);
     console.error(err);
   });
