@@ -14,11 +14,7 @@ let data;
 let maxValue;
 let minValue;
 
-const container = d3
-  .select("body")
-  .append("div")
-  .attr("class", "container")
-  .style("position", "relative");
+const container = d3.select("body").append("div").attr("class", "container");
 
 const svg = d3
   .select(".container")
@@ -125,20 +121,44 @@ const startVisualization = (min, max) => {
     .attr("transform", "scale(0.9), translate(105,80)")
     .attr("data-fips", (d) => d.id)
     .attr("data-education", (d) => {
-      let id = d.id;
-      let county = educationDataset.filter((i) => i.fips == id);
+      let county = educationDataset.filter((i) => i.fips == d.id);
       if (county[0]) {
         return county[0].bachelorsOrHigher;
       }
       return 0;
     })
     .attr("fill", (d) => {
-      let id = d.id;
-      let county = educationDataset.filter((i) => i.fips == id);
+      let county = educationDataset.filter((i) => i.fips == d.id);
       if (county[0]) {
         return colorScale(county[0].bachelorsOrHigher);
       }
       return colorScale(0);
+    })
+    .on("mouseover", function (d) {
+      tooltip.transition().style("visibility", "visible");
+      tooltip
+        .html(function () {
+          let county = educationDataset.filter((i) => i.fips === d.id);
+          if (county[0]) {
+            let area = county[0].area_name;
+            let state = county[0].state;
+            let bachelorsOrHigher = county[0].bachelorsOrHigher;
+            return `${area}, ${state}: </br>${bachelorsOrHigher}%`;
+          }
+          return 0;
+        })
+        .attr("data-education", () => {
+          let county = educationDataset.filter((i) => i.fips == d.id);
+          if (county[0]) {
+            return county[0].bachelorsOrHigher;
+          }
+          return 0;
+        })
+        .style("left", d3.event.pageX + 0 + "px")
+        .style("top", d3.event.pageY - 30 + "px");
+    })
+    .on("mouseout", function () {
+      tooltip.transition().style("visibility", "hidden");
     });
 
   svg
