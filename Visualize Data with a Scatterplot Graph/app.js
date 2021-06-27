@@ -8,11 +8,7 @@ let xScale;
 let yScale;
 let dataset;
 
-const container = d3
-  .select("body")
-  .append("div")
-  .attr("class", "container")
-  .style("position", "relative");
+const container = d3.select("body").append("div").attr("class", "container");
 
 const svg = d3
   .select(".container")
@@ -142,6 +138,8 @@ const startVisualization = () => {
       tooltip.transition().style("visibility", "visible");
       tooltip
         .attr("data-year", d.Year)
+        .style("left", d3.event.pageX + 0 + "px")
+        .style("top", d3.event.pageY - 70 + "px")
         .html(
           d.Name +
             " : " +
