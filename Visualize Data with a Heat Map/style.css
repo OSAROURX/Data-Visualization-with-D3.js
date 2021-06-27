@@ -66,6 +66,7 @@ body {
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   opacity: 1;
   pointer-events: none;
+  z-index: 10;
 }
 
 .legend {
