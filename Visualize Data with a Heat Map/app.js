@@ -23,11 +23,7 @@ let months = [
   "December",
 ];
 
-const container = d3
-  .select("body")
-  .append("div")
-  .attr("class", "container")
-  .style("position", "relative");
+const container = d3.select("body").append("div").attr("class", "container");
 
 const svg = d3
   .select(".container")
@@ -179,7 +175,8 @@ const startVisualization = () => {
 
       tooltip
         .attr("data-year", d.year)
-        .style("left", `${xScale(d.year)}px`)
+        .style("left", d3.event.pageX + 0 + "px")
+        .style("top", d3.event.pageY - 55 + "px")
         .html(
           `${d.year} ${months[d.month - 1]}:</br>${(
             datasetArr.baseTemperature + d.variance
