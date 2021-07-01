@@ -5,7 +5,6 @@ const countryURL =
 
 const height = 615;
 const width = 1050;
-const padding = 60;
 
 let educationDataset;
 let countryDataset;
