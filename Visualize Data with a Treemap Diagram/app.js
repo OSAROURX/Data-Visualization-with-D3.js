@@ -3,8 +3,8 @@ const url =
 // const url =
 //   "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json";
 
-const height = 615;
-const width = 1300;
+const height = 1500;
+const width = 1150;
 
 let dataset;
 
@@ -21,14 +21,27 @@ const svg = d3
   .attr("height", height)
   .attr("class", "svg");
 
+const tooltip = d3
+  .select(".container")
+  .append("div")
+  .attr("id", "tooltip")
+  .attr("class", "tooltip")
+  .style("visibility", "hidden");
+
+const legend = d3
+  .select("body")
+  .append("svg")
+  .attr("id", "legend")
+  .attr("class", "legend");
+
 const setText = () => {
   svg
     .append("text")
     .attr("id", "title")
     .text("Video Game Sales")
     .attr("x", "50%")
-    .attr("y", "6%")
-    .attr("font-size", "1.8em")
+    .attr("y", "3%")
+    .attr("font-size", "1.9em")
     .attr("font-weight", "500")
     .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle");
@@ -38,7 +51,7 @@ const setText = () => {
     .attr("id", "description")
     .text("Top 100 Most Sold Video Games Grouped by Platform")
     .attr("x", "50%")
-    .attr("y", "12%")
+    .attr("y", "6%")
     .attr("font-size", "1.2em")
     .attr("font-weight", "400")
     .attr("dominant-baseline", "middle")
@@ -55,10 +68,11 @@ const setText = () => {
 
 const startVisualization = () => {
   const color = d3.scaleOrdinal(d3.schemeTableau10);
-  const setTreeMap = d3.treemap().size([1000, 500]).paddingInner(2);
+  const setTreeMap = d3.treemap().size([width, 1000]).paddingInner(2);
   const hierarchy = d3
     .hierarchy(dataset, (d) => d.children)
-    .sum((d) => d.value);
+    .sum((d) => d.value)
+    .sort((a, b) => b.height - a.height || b.value - a.value);
 
   setTreeMap(hierarchy);
 
@@ -69,7 +83,7 @@ const startVisualization = () => {
     .data(gameTiles)
     .enter()
     .append("g")
-    .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`);
+    .attr("transform", (d) => `translate(${d.x0}, ${d.y0 + 120})`);
 
   const tile = block
     .append("rect")
@@ -79,13 +93,33 @@ const startVisualization = () => {
     .attr("data-value", (d) => d.data.value)
     .attr("fill", (d) => color(d.data.category))
     .attr("width", (d) => d.x1 - d.x0)
-    .attr("height", (d) => d.y1 - d.y0);
+    .attr("height", (d) => d.y1 - d.y0)
+    .on("mouseover", (d) => {
+      tooltip.transition().style("visibility", "visible");
+      tooltip
+        .attr("data-value", d.data.value)
+        .style("left", d3.event.pageX + 10 + "px")
+        .style("top", d3.event.pageY - 28 + "px")
+        .html(
+          `<p><span>Name: </span>${d.data.name}<p>
+            <p><span>Category: </span>${d.data.category}<p>
+            <p><span>Value: </span>${d.data.value}<p>`
+        );
+    })
+    .on("mouseout", () => {
+      tooltip.transition().style("visibility", "hidden");
+    });
 
   const tileText = block
     .append("text")
-    .text((d) => d.data.name)
+    .selectAll("tspan")
+    .data((d) => d.data.name.split(/(?=[A-Z][^A-Z])/g))
+    .enter()
+    .append("tspan")
     .attr("x", 5)
-    .attr("y", 20);
+    .attr("y", (d, i) => 15 + i * 10)
+    .style("font-size", "12")
+    .text((d) => d);
 };
 
 fetch(url)
