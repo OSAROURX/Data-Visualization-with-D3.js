@@ -1,9 +1,7 @@
 const url =
   "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json";
-// const url =
-//   "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json";
 
-const height = 1500;
+const height = 1280;
 const width = 1150;
 
 let dataset;
@@ -60,17 +58,18 @@ const setText = () => {
   svg
     .append("text")
     .text("By LeviaThanSr")
-    .attr("x", width - 180)
+    .attr("x", width / 2)
     .attr("y", height - 35)
     .attr("font-weight", "300")
-    .attr("letter-spacing", "2");
+    .attr("letter-spacing", "2")
+    .attr("text-anchor", "middle");
 };
 
 const startVisualization = () => {
   const color = d3.scaleOrdinal(d3.schemeTableau10);
   const setTreeMap = d3.treemap().size([width, 1000]).paddingInner(2);
   const hierarchy = d3
-    .hierarchy(dataset, (d) => d.children)
+    .hierarchy(dataset)
     .sum((d) => d.value)
     .sort((a, b) => b.height - a.height || b.value - a.value);
 
@@ -119,6 +118,35 @@ const startVisualization = () => {
     .attr("x", 5)
     .attr("y", (d, i) => 15 + i * 10)
     .style("font-size", "12")
+    .text((d) => d);
+
+  const categories = gameTiles
+    .map((d) => d.data.category)
+    .filter((i, idx, arr) => arr.indexOf(i) === idx);
+
+  // console.log(categories);
+
+  legend
+    .selectAll("rect")
+    .data(categories)
+    .enter()
+    .append("rect")
+    .attr("class", "legend-item")
+    .attr("fill", (d) => color(d))
+    .attr("x", (d, i) => i * 63)
+    .attr("y", 30)
+    .attr("width", 22)
+    .attr("height", 22);
+
+  legend
+    .append("g")
+    .selectAll("text")
+    .data(categories)
+    .enter()
+    .append("text")
+    .attr("fill", "black")
+    .attr("x", (d, i) => i * 63 + 23)
+    .attr("y", 46)
     .text((d) => d);
 };
 
