@@ -1,8 +1,10 @@
 const url =
   "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json";
+// const url =
+//   "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json";
 
-const height = 550;
-const width = 1050;
+const height = 615;
+const width = 1300;
 
 let dataset;
 
@@ -52,16 +54,38 @@ const setText = () => {
 };
 
 const startVisualization = () => {
-  const setTreeMap = d3.treemap().size([400, 900]).paddingInner(1);
-
+  const color = d3.scaleOrdinal(d3.schemeTableau10);
+  const setTreeMap = d3.treemap().size([1000, 500]).paddingInner(2);
   const hierarchy = d3
     .hierarchy(dataset, (d) => d.children)
-    .sum((d) => d.value)
-    .sort((d1, d2) => d1.value - d2.value);
+    .sum((d) => d.value);
 
   setTreeMap(hierarchy);
 
-  console.log(hierarchy.leaves());
+  const gameTiles = hierarchy.leaves();
+
+  const block = svg
+    .selectAll("g")
+    .data(gameTiles)
+    .enter()
+    .append("g")
+    .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`);
+
+  const tile = block
+    .append("rect")
+    .attr("class", "tile")
+    .attr("data-name", (d) => d.data.name)
+    .attr("data-category", (d) => d.data.category)
+    .attr("data-value", (d) => d.data.value)
+    .attr("fill", (d) => color(d.data.category))
+    .attr("width", (d) => d.x1 - d.x0)
+    .attr("height", (d) => d.y1 - d.y0);
+
+  const tileText = block
+    .append("text")
+    .text((d) => d.data.name)
+    .attr("x", 5)
+    .attr("y", 20);
 };
 
 fetch(url)
