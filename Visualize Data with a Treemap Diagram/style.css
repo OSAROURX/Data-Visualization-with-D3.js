@@ -10,7 +10,6 @@
 }
 
 body {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,6 +21,7 @@ body {
     rgba(239, 249, 249, 1) 0%,
     rgba(182, 199, 226, 1) 100.2%
   );
+  overflow-x: hidden;
 }
 
 .svg {
@@ -29,4 +29,65 @@ body {
   border-radius: 3px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.tooltip {
+  position: absolute;
+  top: 8%;
+  left: 83.1%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  width: 300px;
+  max-width: 500px;
+  height: 100px;
+  padding: 10px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Roboto Mono", monospace;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  border: 1px solid rgb(197, 197, 197);
+  color: #333;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 10;
+}
+
+p span {
+  font-weight: bold;
+}
+
+g {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legend {
+  position: relative;
+  transform: translate(-50%, -50%);
+  width: 110px;
+  height: 110px;
+  background-color: #333;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(175, 175, 175);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(122, 122, 122);
 }
