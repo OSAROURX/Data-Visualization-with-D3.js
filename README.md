@@ -1,11 +1,11 @@
 # Data Visualization with D3.js
 
-[View](https://bar-chart-d3-sr.netlify.app/) --> **Visualize Data with a Bar Chart**
+**Visualize Data with a Bar Chart**...........[View](https://bar-chart-d3-sr.netlify.app/)
 
-[View](https://scatterplot-graph-d3-sr.netlify.app/) --> **Visualize Data with a Scatterplot Graph**
+**Visualize Data with a Scatterplot Graph**...[View](https://scatterplot-graph-d3-sr.netlify.app/)
 
-[View](https://heat-map-d3-sr.netlify.app/) --> **Visualize Data with a Heat Map**
+**Visualize Data with a Heat Map**............[View](https://heat-map-d3-sr.netlify.app/)
 
-[View](https://choropleth-map-d3-sr.netlify.app/) --> **Visualize Data with a Choropleth Map**
+**Visualize Data with a Choropleth Map**......[View](https://choropleth-map-d3-sr.netlify.app/)
 
-[View](https://treemap-diagram-d3-sr.netlify.app/) --> **Visualize Data with a Treemap Diagram**
+**Visualize Data with a Treemap Diagram**.....[View](https://treemap-diagram-d3-sr.netlify.app/)
