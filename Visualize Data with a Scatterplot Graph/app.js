@@ -99,7 +99,7 @@ const setText = () => {
   svg
     .append("text")
     .text("By OSAROURX")
-    .attr("x", width - 210)
+    .attr("x", width - 208)
     .attr("y", height - 15)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");
