@@ -101,7 +101,7 @@ const setText = () => {
     .append("text")
     .text("By OSAROURX")
     .attr("x", width - 180)
-    .attr("y", height - 14)
+    .attr("y", height - 15)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");
 };
