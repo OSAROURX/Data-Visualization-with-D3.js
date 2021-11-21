@@ -98,8 +98,8 @@ const setText = () => {
 
   svg
     .append("text")
-    .text("By LeviaThanSr")
-    .attr("x", width - 230)
+    .text("By OSAROURX")
+    .attr("x", width - 210)
     .attr("y", height - 15)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");

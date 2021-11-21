@@ -99,9 +99,9 @@ const setText = () => {
 
   svg
     .append("text")
-    .text("By LeviaThanSr")
-    .attr("x", width - 197)
-    .attr("y", height - 15)
+    .text("By OSAROURX")
+    .attr("x", width - 180)
+    .attr("y", height - 14)
     .attr("font-weight", "300")
     .attr("letter-spacing", "2");
 };

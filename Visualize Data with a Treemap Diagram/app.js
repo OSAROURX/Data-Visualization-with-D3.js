@@ -57,7 +57,7 @@ const setText = () => {
 
   svg
     .append("text")
-    .text("By LeviaThanSr")
+    .text("By OSAROURX")
     .attr("x", width / 2)
     .attr("y", height - 35)
     .attr("font-weight", "300")
